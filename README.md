@@ -34,3 +34,9 @@ The use of this tool for attacking targets without prior mutual consent is illeg
     ```
 4.  **Run the scanner:**
     ```bash
+ python main.py
+    ```
+
+
+
+    

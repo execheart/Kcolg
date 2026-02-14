@@ -4,6 +4,9 @@ import random
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+# --- CONFIGURAÇÃO DO VAULT ---
+ARQUIVO_VAULT = "meu_vault.txt"
+
 VERDE = '\033[92m'
 VERMELHO = '\033[91m'
 AMARELO = '\033[93m'
@@ -21,11 +24,19 @@ def exibir_banner():
     banner = f"""
 {CIANO}########################################
 #       🛡️  KCOLG IDOR SCANNER         #
-#            Versão: 0.5               #
-#     Foco: Multithread Attack         #
+#            Versão: 0.6               #
+#     Foco: Atomic Attack & Vault      #
 ########################################{RESET}
     """
     print(banner)
+
+def salvar_no_vault(id_encontrado, url, data):
+    """ O Vault do Atacante: Guarda as evidências para sempre """
+    timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+    with open(ARQUIVO_VAULT, "a", encoding="utf-8") as f:
+        f.write(f"[{timestamp}] IDOR DETECTADO!\n")
+        f.write(f"ID: {id_encontrado}\nURL: {url}\nDATA: {data}\n")
+        f.write("-" * 40 + "\n")
 
 def limpar_url(url):
     url = url.strip()
@@ -39,7 +50,7 @@ def obter_input_int(mensagem):
             print(f"{VERMELHO}[!] Erro: Digite apenas números.{RESET}")
 
 def scan_task(target_id, target_url, headers):
-    """ Função que cada 'thread' executa individualmente """
+    # Furtividade: Delay aleatório
     time.sleep(random.uniform(0.1, 0.4))
     
     current_headers = headers.copy()
@@ -51,8 +62,11 @@ def scan_task(target_id, target_url, headers):
         response = requests.get(url_teste, headers=current_headers, timeout=7)
         
         if response.status_code == 200:
-            preview = response.text[:50].replace('\n', '')
-            return f"{VERMELHO}[!] ID {target_id}: POSSÍVEL IDOR! (200 OK)\n    > Data: {preview}...{RESET}"
+            preview = response.text[:60].replace('\n', ' ')
+            # SALVANDO NO VAULT IMEDIATAMENTE
+            salvar_no_vault(target_id, url_teste, preview)
+            return f"{VERMELHO}[!] ID {target_id}: POSSÍVEL IDOR! (200 OK) -> Guardado no Vault!{RESET}"
+            
         elif response.status_code in [401, 403]:
             return f"{VERDE}[+] ID {target_id}: Protegido ({response.status_code}){RESET}"
         elif response.status_code == 404:
@@ -60,8 +74,8 @@ def scan_task(target_id, target_url, headers):
         else:
             return f"{AMARELO}[?] ID {target_id}: Status {response.status_code}{RESET}"
             
-    except Exception as e:
-        return f"{VERMELHO}[X] Erro no ID {target_id}: Timeout/Conexão{RESET}"
+    except Exception:
+        return f"{VERMELHO}[X] Erro no ID {target_id}: Falha de Conexão{RESET}"
 
 def kcolg_scanner():
     exibir_banner()
@@ -71,7 +85,7 @@ def kcolg_scanner():
     
     id_start = obter_input_int(f"{CIANO}🔢 ID de Início: {RESET}")
     id_end = obter_input_int(f"{CIANO}🔢 ID de Fim: {RESET}")
-    threads = obter_input_int(f"{CIANO}🚀 Número de Threads (Recomendado 5-10): {RESET}")
+    threads = obter_input_int(f"{CIANO}🚀 Número de Threads (Poder de Fogo): {RESET}")
     
     token = input(f"{CIANO}🔑 Bearer Token (Vazio se não houver): {RESET}").strip()
 
@@ -81,7 +95,7 @@ def kcolg_scanner():
     }
 
     print(f"\n{AMARELO}[*] Iniciando ataque atômico em: {target_url}")
-    print(f"[*] Motores ligados: {threads} threads em paralelo.{RESET}\n")
+    print(f"[*] Resultados salvos automaticamente em: {ARQUIVO_VAULT}{RESET}\n")
 
     with ThreadPoolExecutor(max_workers=threads) as executor:
         futures = [executor.submit(scan_task, i, target_url, headers) for i in range(id_start, id_end + 1)]
@@ -89,11 +103,11 @@ def kcolg_scanner():
         for future in as_completed(futures):
             print(future.result())
 
-    print(f"\n{CIANO}{'='*40}\n      Varredura Finalizada!\n{'='*40}{RESET}")
+    print(f"\n{CIANO}{'='*40}\n      Ataque Concluído. Verifique o Vault!\n{'='*40}{RESET}")
 
 if __name__ == "__main__":
     try:
         kcolg_scanner()
     except KeyboardInterrupt:
-        print(f"\n\n{VERMELHO}[!] Abortar missão! Saindo...{RESET}")
+        print(f"\n\n{VERMELHO}[!] Abortar missão! Saindo com cuidado...{RESET}")
         sys.exit()

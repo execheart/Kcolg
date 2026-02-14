@@ -33,4 +33,8 @@ Always test first with IDs you already own to ensure your
 machine is calibrated correctly.
 
 OPERATE WITH CARE. Don't let the G-Men catch you!
+<<<<<<< HEAD
 ============================================================
+=======
+============================================================
+>>>>>>> 71a44b6 (v0.5 - Multithreading implementation & Anti-Firewall rotation)

@@ -4,7 +4,7 @@ import random
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-# --- CONFIGURAÇÃO DO VAULT ---
+
 ARQUIVO_VAULT = "meu_vault.txt"
 
 VERDE = '\033[92m'

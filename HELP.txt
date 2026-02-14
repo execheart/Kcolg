@@ -1,3 +1,36 @@
-========================================
-   KCOLG IDOR SCANNER - GUIA DE AJUDA
-========================================
+============================================================
+           KCOLG IDOR SCANNER - OPERATOR'S MANUAL
+           "The Marvel of Modern Cyber-Security!"
+============================================================
+
+CONGRATULATIONS, PAL! You are now the proud owner of the 
+KCOLG Scanner. Follow these swell instructions for success:
+
+1. THE BASE URL (The Secret Address):
+   Always provide the full path to the machinery's endpoint.
+   SWELL:  https://api.example.com/posts/
+   LAME:   https://api.example.com
+
+2. START & END IDs (The Frequency Dial):
+   Use whole numbers, just like a telephone dial. The scanner 
+   will inspect every unit between your start and finish.
+   Ex: Start 1, End 10 (Inspects 10 items for the Boss).
+
+3. THE BEARER TOKEN (The Secret Handshake):
+   If the establishment requires a membership, paste your 
+   Token here (No need to type 'Bearer', our machine does it!).
+   If it's a public joint, just leave it blank and hit Enter.
+
+4. READING THE SIGNALS:
+   [!] CRIMSON (RED): Possible IDOR! Data is leaking like 
+       a broken pipe! Inspect at once.
+   [+] EMERALD (GREEN): The system is ship-shape and secure.
+   [-] GREY/WHITE: 404 - Nowhere to be found, mister! 
+       Double-check that URL.
+
+GOLDEN ADVICE:
+Always test first with IDs you already own to ensure your 
+machine is calibrated correctly.
+
+OPERATE WITH CARE. Don't let the G-Men catch you!
+============================================================
